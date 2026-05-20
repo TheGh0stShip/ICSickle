@@ -31,18 +31,14 @@ Outlook ignores these fields in the UI, but they can survive normal calendar tra
 
 ### Embed a payload
 
-```bash
-python embed_outlook_ics2.py \
-  --summary "Meeting" \
-  --file payload.exe \
-  --output event.ics
+```bash example
+python .\embed_outlook_ics2.py --summary "Time to pop calc" --file .\Payloads\calc.exe --compress none --output .\Sent\calc.ics
 ```
 
 ### Extract a payload
 
-```bash
-python extract_outlook_ics2.py \
-  --ics event.ics
+```bash example
+python ..\extract_outlook_ics2.py --ics '.\Received\calc.ics' --out-dir .\Exploded\. --overwrite
 ```
 
 Run either script with `-h` to see additional options for compression, chunk size, timestamps, and custom property prefixes.
